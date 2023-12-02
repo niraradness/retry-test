@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>co.leumi.automation</groupId>
+    <artifactId>LeumiAutomationDigitalPratiim</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <properties>
+
+        <!-- Verisoft infra versions -->
+        <verisoft.test.api.version>1.0.0-RC2</verisoft.test.api.version>
+        <verisoft.selenium4.junit5.version>1.0.0-RC3-nir</verisoft.selenium4.junit5.version>
+
+        <!-- Plugins -->
+        <maven.compiler.version>3.11.0</maven.compiler.version>
+        <maven.source.plugin.version>3.2.1</maven.source.plugin.version>
+        <maven.resources.plugin.version>2.6</maven.resources.plugin.version>
+        <maven.surefire.plugin.version>3.1.2</maven.surefire.plugin.version>
+        <maven.release.plugin.version>3.0.1</maven.release.plugin.version>
+        <aspectj.version>1.9.7</aspectj.version>
+
+        <!-- Java -->
+        <java.version>11</java.version>
+        <maven.compiler.source>${java.version}</maven.compiler.source>
+        <maven.compiler.target>${java.version}</maven.compiler.target>
+
+        <!-- Encoding -->
+        <java.encoding>UTF-8</java.encoding>
+        <project.build.sourceEncoding>${java.encoding}</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>${java.encoding}</project.reporting.outputEncoding>
+
+    </properties>
+    <dependencies>
+
+        <!--        <dependency>-->
+        <!--            <groupId>co.leumi.automation</groupId>-->
+        <!--            <artifactId>LeumiAutomationInfrustructure</artifactId>-->
+        <!--            <version>1.0.0.8</version>-->
+        <!--        </dependency>-->
+
+        <!-- https://mvnrepository.com/artifact/co.verisoft/Selenium4-Junit5 -->
+        <dependency>
+            <groupId>co.verisoft</groupId>
+            <artifactId>Selenium4-Junit5</artifactId>
+            <version>${verisoft.selenium4.junit5.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>co.verisoft</groupId>
+                    <artifactId>test-api</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/co.verisoft/test-api -->
+        <dependency>
+            <groupId>co.verisoft</groupId>
+            <artifactId>test-api</artifactId>
+            <version>${verisoft.test.api.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.github.Visual-Regression-Tracker</groupId>
+                    <artifactId>sdk-java</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/io.github.artsok/rerunner-jupiter -->
+        <dependency>
+            <groupId>io.github.artsok</groupId>
+            <artifactId>rerunner-jupiter</artifactId>
+            <version>2.1.6</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.seleniumhq.selenium</groupId>
+            <artifactId>selenium-remote-driver</artifactId>
+            <version>4.13.0</version>
+        </dependency>
+
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-release-plugin</artifactId>
+                <version>${maven.release.plugin.version}</version>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <version>${maven.source.plugin.version}</version>
+                <executions>
+                    <execution>
+                        <id>attach-sources</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>${maven.compiler.version}</version>
+                <configuration>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
+                    <encoding>${project.build.sourceEncoding}</encoding>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>${maven.resources.plugin.version}</version>
+                <configuration>
+                    <encoding>${project.build.sourceEncoding}</encoding>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>${maven.surefire.plugin.version}</version>
+                <configuration>
+                    <testFailureIgnore>true</testFailureIgnore>
+                    <argLine>
+                        -Dfile.encoding=${project.build.sourceEncoding}
+                        -javaagent:"${settings.localRepository}/org/aspectj/aspectjweaver/${aspectj.version}/aspectjweaver-${aspectj.version}.jar"
+                    </argLine>
+                </configuration>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.aspectj</groupId>
+                        <artifactId>aspectjweaver</artifactId>
+                        <version>${aspectj.version}</version>
+                    </dependency>
+                </dependencies>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>
